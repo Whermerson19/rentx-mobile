@@ -3,6 +3,7 @@ import { StatusBar } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 
 import Logo from "../../assets/logo.svg";
+import { CardCar } from "../../components/CardCar";
 
 import { Container, Header, HeaderContent, TotalCars } from "./styles";
 
@@ -21,6 +22,15 @@ export function Home() {
           <TotalCars>Total de 12 carros</TotalCars>
         </HeaderContent>
       </Header>
+
+      <CardCar
+        brand="audi"
+        name="RS Coumpé 5"
+        rent={{
+          period: "ao dia",
+          price: 120,
+        }}
+      />
     </Container>
   );
 }
