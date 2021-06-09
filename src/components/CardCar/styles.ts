@@ -37,7 +37,7 @@ export const About = styled.View`
   flex-direction: row;
   align-items: center;
 
-  padding: ${RFValue(16)}px;
+  margin-top: ${RFValue(16)}px;
 `;
 
 export const Rent = styled.View`

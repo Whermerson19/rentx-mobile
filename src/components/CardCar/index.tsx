@@ -23,9 +23,10 @@ interface Props {
     period: string;
     price: number;
   };
+  thumbnail: string;
 }
 
-export function CardCar({ brand, name, rent }: Props) {
+export function CardCar({ brand, name, rent, thumbnail }: Props) {
   return (
     <Container>
       <Detail>
@@ -44,7 +45,7 @@ export function CardCar({ brand, name, rent }: Props) {
         </About>
       </Detail>
 
-      <CarImage source={CarExample} />
+      <CarImage resizeMode="contain" source={CarExample} />
     </Container>
   );
 }
