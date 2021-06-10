@@ -32,16 +32,60 @@ export const Content = styled.ScrollView.attrs({
   showsVerticalScrollIndicator: false,
 })``;
 
-export const Details = styled.View``;
+export const Details = styled.View`
+  width: 100%;
+
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: ${RFValue(32)}px;
+`;
 
 export const Description = styled.View``;
 
-export const Brand = styled.Text``;
+export const Brand = styled.Text`
+  font-family: ${props => props.theme.fonts.secoundary_500};
+  font-size: ${RFValue(10)}px;
 
-export const Name = styled.Text``;
+  color: ${props => props.theme.colors.text_detail};
+
+  text-transform: uppercase;
+`;
+
+export const Name = styled.Text`
+  font-family: ${props => props.theme.fonts.secoundary_500};
+  font-size: ${RFValue(25)}px;
+
+  color: ${props => props.theme.colors.title};
+`;
 
 export const Rent = styled.View``;
 
-export const Period = styled.Text``;
+export const Period = styled.Text`
+  font-family: ${props => props.theme.fonts.secoundary_500};
+  font-size: ${RFValue(10)}px;
 
-export const Price = styled.Text``;
+  color: ${props => props.theme.colors.text_detail};
+
+  text-transform: uppercase;
+`;
+
+export const Price = styled.Text`
+  font-family: ${props => props.theme.fonts.secoundary_500};
+  font-size: ${RFValue(25)}px;
+
+  color: ${props => props.theme.colors.main};
+`;
+
+export const About = styled.Text`
+  width: 100%;
+  padding: 0 ${RFValue(32)}px;
+
+  font-family: ${props => props.theme.fonts.primary_400};
+  font-size: ${RFValue(15)}px;
+
+  color: ${props => props.theme.colors.text};
+
+  text-align: justify;
+`;
