@@ -5,6 +5,9 @@ export const Container = styled.View`
   flex: 1;
 
   background-color: ${(props) => props.theme.colors.background_secondary};
+
+
+
 `;
 
 export const Header = styled.View`
@@ -20,9 +23,7 @@ export const Header = styled.View`
   margin-left: ${RFValue(24)}px;
 `;
 
-export const SliderContainer = styled.View`
-  margin-top: ${RFValue(32)}px;
-`;
+export const SliderContainer = styled.View``;
 
 export const Content = styled.ScrollView.attrs({
   contenContainerStyle: {
@@ -30,7 +31,9 @@ export const Content = styled.ScrollView.attrs({
     alignItems: "center",
   },
   showsVerticalScrollIndicator: false,
-})``;
+})`
+  padding: ${RFValue(32)}px;
+`;
 
 export const Details = styled.View`
   width: 100%;
@@ -39,7 +42,8 @@ export const Details = styled.View`
   align-items: center;
   justify-content: space-between;
 
-  padding: ${RFValue(32)}px;
+
+  margin-top: ${RFValue(32)}px; 
 `;
 
 export const Description = styled.View``;
@@ -78,14 +82,36 @@ export const Price = styled.Text`
   color: ${props => props.theme.colors.main};
 `;
 
+export const AccessoriesContainer = styled.View`
+  width: 100%;
+
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  align-items: center;
+  justify-content: space-between;
+
+  margin: ${RFValue(16)}px 0;
+`;
+
 export const About = styled.Text`
   width: 100%;
-  padding: 0 ${RFValue(32)}px;
 
   font-family: ${props => props.theme.fonts.primary_400};
   font-size: ${RFValue(15)}px;
 
   color: ${props => props.theme.colors.text};
+  line-height: ${RFValue(25)}px;
 
   text-align: justify;
+`;
+
+export const Footer = styled.View`
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+
+  background-color: ${props => props.theme.colors.background_primary};
+
+  padding: ${RFValue(24)}px;
 `;
