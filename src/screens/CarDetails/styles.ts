@@ -5,9 +5,6 @@ export const Container = styled.View`
   flex: 1;
 
   background-color: ${(props) => props.theme.colors.background_secondary};
-
-
-
 `;
 
 export const Header = styled.View`
