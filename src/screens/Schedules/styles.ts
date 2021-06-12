@@ -1,5 +1,5 @@
-import { RFValue } from 'react-native-responsive-fontsize';
-import styled, { css } from 'styled-components/native'
+import { RFValue } from "react-native-responsive-fontsize";
+import styled, { css } from "styled-components/native";
 
 interface DateValuesProps {
   selected: boolean;
@@ -51,23 +51,23 @@ export const DateValue = styled.Text<DateValuesProps>`
   font-family: ${(props) => props.theme.fonts.primary_500};
   font-size: ${RFValue(15)}px;
 
-  ${({theme, selected}) => !selected && css`
-    border-bottom-width: 1px;
-    border-bottom-color: ${theme.colors.text};
-    padding-bottom: 5px;
-  `};
+  ${({ theme, selected }) =>
+    !selected &&
+    css`
+      border-bottom-width: 1px;
+      border-bottom-color: ${theme.colors.text};
+      padding-bottom: 5px;
+    `};
 `;
 
 export const Content = styled.ScrollView.attrs({
   contentContainerStyle: {
-    justifyContent: 'flex-end',
+    padding: 24,
     flex: 1,
   },
   showsVerticalScrollIndicator: false,
-})`
-`;
+})``;
 
 export const Footer = styled.View`
   padding: ${RFValue(24)}px;
 `;
-

@@ -1,27 +1,27 @@
-import React from 'react'
-import { StatusBar } from 'react-native'
-import { useTheme } from 'styled-components'
+import React from "react";
+import { StatusBar } from "react-native";
+import { useTheme } from "styled-components";
 
-import { BackButton } from '../../components/BackButton'
-import { Button } from '../../components/Button'
+import { BackButton } from "../../components/BackButton";
+import { Button } from "../../components/Button";
 
-import ArrowSvg from '../../assets/arrow.svg'
+import ArrowSvg from "../../assets/arrow.svg";
 
-import { 
-  Container, 
-  Header, 
-  Title, 
-  RentalPeriod, 
-  DateInfo, 
-  DateTitle, 
+import {
+  Container,
+  Header,
+  Title,
+  RentalPeriod,
+  DateInfo,
+  DateTitle,
   DateValue,
   Content,
   Footer,
-} from './styles'
+} from "./styles";
+import { Calendar } from "../../components/Calendar";
 
 export function Schedules() {
-
-  const theme = useTheme()
+  const theme = useTheme();
 
   return (
     <Container>
@@ -32,20 +32,17 @@ export function Schedules() {
       />
 
       <Header>
-        <BackButton
-          color={theme.colors.shape}
-        />
+        <BackButton color={theme.colors.shape} />
 
         <Title>
           Escolha uma
-          {"\n"}data de início e 
-          {"\n"}fim do aluguel.
+          {"\n"}data de início e{"\n"}fim do aluguel.
         </Title>
 
         <RentalPeriod>
           <DateInfo>
             <DateTitle>DE</DateTitle>
-            <DateValue selected={false} ></DateValue>
+            <DateValue selected={false}></DateValue>
           </DateInfo>
 
           <ArrowSvg />
@@ -55,15 +52,15 @@ export function Schedules() {
             <DateValue selected={false}></DateValue>
           </DateInfo>
         </RentalPeriod>
-
       </Header>
 
       <Content>
-        <Footer>
-          <Button title="Confirmar" />
-        </Footer>
+        <Calendar />
       </Content>
-    </Container>
-  )
-}
 
+      <Footer>
+        <Button title="Confirmar" />
+      </Footer>
+    </Container>
+  );
+}
