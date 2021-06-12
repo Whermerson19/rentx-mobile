@@ -1,4 +1,6 @@
 import React from "react";
+import { StatusBar } from "react-native";
+
 import { RFValue } from "react-native-responsive-fontsize";
 
 import { useTheme } from "styled-components";
@@ -48,6 +50,12 @@ export function ScheduleDetails() {
 
   return (
     <Container>
+      <StatusBar
+        barStyle="dark-content"
+        translucent
+        backgroundColor="transparent"
+      />
+
       <Header>
         <BackButton onPress={() => {}} />
       </Header>

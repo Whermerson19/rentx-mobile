@@ -20,16 +20,17 @@ export const Header = styled.View`
   margin-left: ${RFValue(24)}px;
 `;
 
-export const SliderContainer = styled.View``;
+export const SliderContainer = styled.View`
+  /* padding: ${RFValue(30)}px 0; */
+`;
 
 export const Content = styled.ScrollView.attrs({
   contenContainerStyle: {
-    padding: 24,
     alignItems: "center",
   },
   showsVerticalScrollIndicator: false,
 })`
-  padding: 0 ${RFValue(32)}px;
+  padding: 0 ${RFValue(24)}px;
 `;
 
 export const Details = styled.View`

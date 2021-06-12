@@ -8,13 +8,15 @@ interface ImageIndexProps {
 
 export const Container = styled.View`
   width: 100%;
+
   align-items: flex-end;
 `;
 
 export const ImageIndexContainer = styled.View`
   flex-direction: row;
 
-  padding: ${RFValue(24)}px;
+  padding: ${RFValue(32)}px;
+  padding-bottom: 0;
 `;
 
 export const ImageIndex = styled.View<ImageIndexProps>`
@@ -24,6 +26,7 @@ export const ImageIndex = styled.View<ImageIndexProps>`
   border-radius: 3px;
 
   margin-left: 8px;
+  margin-top: 15px;
 
   background-color: ${({ theme, active }) =>
     active ? theme.colors.title : theme.colors.shape};
