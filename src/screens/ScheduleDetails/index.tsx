@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useCallback } from "react";
+import { useNavigation } from "@react-navigation/native";
+
 import { StatusBar } from "react-native";
 
 import { RFValue } from "react-native-responsive-fontsize";
@@ -48,6 +50,12 @@ import {
 export function ScheduleDetails() {
   const theme = useTheme();
 
+  const navigation = useNavigation();
+
+  const handleConfirmRental = useCallback(() => {
+    navigation.navigate("SchedulingComplete");
+  }, [navigation]);
+
   return (
     <Container>
       <StatusBar
@@ -57,7 +65,11 @@ export function ScheduleDetails() {
       />
 
       <Header>
-        <BackButton onPress={() => {}} />
+        <BackButton
+          onPress={() => {
+            navigation.goBack();
+          }}
+        />
       </Header>
 
       <SliderContainer>
@@ -125,7 +137,11 @@ export function ScheduleDetails() {
         </RentalPrice>
       </Content>
       <Footer>
-        <Button title="Escolher período de aluguel" />
+        <Button
+          title="Alugar agora"
+          color={theme.colors.success}
+          onPress={handleConfirmRental}
+        />
       </Footer>
     </Container>
   );

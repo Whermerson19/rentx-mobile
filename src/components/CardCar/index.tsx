@@ -1,4 +1,5 @@
 import React from "react";
+import { RectButtonProps } from "react-native-gesture-handler";
 
 import GasolineSvg from "../../assets/gasoline.svg";
 import CarExample from "../../assets/car_example.png";
@@ -15,8 +16,10 @@ import {
   Type,
   CarImage,
 } from "./styles";
+import { useNavigation } from "@react-navigation/native";
+import { useCallback } from "react";
 
-interface Props {
+interface Props extends RectButtonProps {
   brand: string;
   name: string;
   rent: {
@@ -26,9 +29,11 @@ interface Props {
   thumbnail: string;
 }
 
-export function CardCar({ brand, name, rent, thumbnail }: Props) {
+export function CardCar({ brand, name, rent, thumbnail, ...rest }: Props) {
+  const navigation = useNavigation();
+
   return (
-    <Container>
+    <Container {...rest}>
       <Detail>
         <Brand>{brand}</Brand>
         <Name>{name}</Name>

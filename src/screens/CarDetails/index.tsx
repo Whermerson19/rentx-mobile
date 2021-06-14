@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useCallback } from "react";
+import { useNavigation } from "@react-navigation/native";
+
+import { StatusBar } from "react-native";
+
 import { Accessory } from "../../components/Accessory";
 import { BackButton } from "../../components/BackButton";
 import { ImageSlider } from "../../components/ImageSlider";
+import { Button } from "../../components/Button";
 
-import speedSvg from '../../assets/speed.svg'
-import accelerationSvg from '../../assets/acceleration.svg'
-import peopleSvg from '../../assets/people.svg'
-import forceSvg from '../../assets/force.svg'
-import gasolineSvg from '../../assets/gasoline.svg'
-import exchangeSvg from '../../assets/exchange.svg'
+import speedSvg from "../../assets/speed.svg";
+import accelerationSvg from "../../assets/acceleration.svg";
+import peopleSvg from "../../assets/people.svg";
+import forceSvg from "../../assets/force.svg";
+import gasolineSvg from "../../assets/gasoline.svg";
+import exchangeSvg from "../../assets/exchange.svg";
 
 import {
   Container,
@@ -26,13 +31,24 @@ import {
   About,
   Footer,
 } from "./styles";
-import { Button } from "../../components/Button";
 
-export function CardDetails() {
+export function CarDetails() {
+  const navigation = useNavigation();
+
+  const handleChoseRentalPeriod = useCallback(() => {
+    navigation.navigate("Schedules");
+  }, [navigation]);
+
   return (
     <Container>
+      <StatusBar barStyle="dark-content" />
+
       <Header>
-        <BackButton onPress={() => {}} />
+        <BackButton
+          onPress={() => {
+            navigation.goBack();
+          }}
+        />
       </Header>
 
       <SliderContainer>
@@ -66,15 +82,16 @@ export function CardDetails() {
         </AccessoriesContainer>
 
         <About>
-          Este é automóvel desportivo. Surgiu do 
-          lendário touro de lide indultado 
-          na praça Real Maestranza de Sevilla. É um 
-          belíssimo carro para quem gosta de acelerar.
+          Este é automóvel desportivo. Surgiu do lendário touro de lide
+          indultado na praça Real Maestranza de Sevilla. É um belíssimo carro
+          para quem gosta de acelerar.
         </About>
-
       </Content>
       <Footer>
-        <Button title="Escolher período de aluguel" />
+        <Button
+          onPress={handleChoseRentalPeriod}
+          title="Escolher período de aluguel"
+        />
       </Footer>
     </Container>
   );

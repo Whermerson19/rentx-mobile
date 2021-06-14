@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useCallback } from "react";
+import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 
@@ -29,6 +30,12 @@ export function Home() {
     },
   ];
 
+  const navigation = useNavigation();
+
+  const handleCarDetails = useCallback(() => {
+    navigation.navigate("CarDetails");
+  }, [navigation]);
+
   return (
     <Container>
       <StatusBar
@@ -50,6 +57,7 @@ export function Home() {
         keyExtractor={(item) => String(item)}
         renderItem={(item) => (
           <CardCar
+            onPress={handleCarDetails}
             brand="audi"
             name="RS Coumpé 5"
             rent={{
