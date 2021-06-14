@@ -18,9 +18,12 @@ export function Home() {
 
   const navigation = useNavigation();
 
-  const handleCarDetails = useCallback(() => {
-    navigation.navigate("CarDetails");
-  }, [navigation]);
+  const handleCarDetails = useCallback(
+    (car: CarDTO) => {
+      navigation.navigate("CarDetails", { car });
+    },
+    [navigation]
+  );
 
   useEffect(() => {
     async function loadCars() {
@@ -60,7 +63,7 @@ export function Home() {
           data={data}
           keyExtractor={(item) => String(item.id)}
           renderItem={({ item }) => (
-            <CardCar onPress={handleCarDetails} data={item} />
+            <CardCar onPress={() => handleCarDetails(item)} data={item} />
           )}
         />
       )}
