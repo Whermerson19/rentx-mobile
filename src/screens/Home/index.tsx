@@ -1,40 +1,41 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
+
+import { api } from "../../services/api";
+import { CarDTO } from "../../dtos/CarDTO";
 
 import Logo from "../../assets/logo.svg";
 import { CardCar } from "../../components/CardCar";
 
 import { Container, Header, HeaderContent, TotalCars, CarList } from "./styles";
+import { Load } from "../../components/Load";
 
 export function Home() {
-  const data = [
-    {
-      brand: "audi",
-      name: "RS Coumpé 5",
-      rent: {
-        period: "ao dia",
-        price: 120,
-      },
-      thumbnail: "",
-    },
-    {
-      brand: "audi",
-      name: "RS Coumpé 6",
-      rent: {
-        period: "ao dia",
-        price: 150,
-      },
-      thumbnail: "",
-    },
-  ];
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<CarDTO[]>([]);
 
   const navigation = useNavigation();
 
   const handleCarDetails = useCallback(() => {
     navigation.navigate("CarDetails");
   }, [navigation]);
+
+  useEffect(() => {
+    async function loadCars() {
+      try {
+        const response = await api.get("/cars");
+        setData(response.data);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadCars();
+  }, []);
 
   return (
     <Container>
@@ -51,23 +52,18 @@ export function Home() {
         </HeaderContent>
       </Header>
 
-      <CarList
-        showsVerticalScrollIndicator={false}
-        data={[1, 2, 3, 4, 5]}
-        keyExtractor={(item) => String(item)}
-        renderItem={(item) => (
-          <CardCar
-            onPress={handleCarDetails}
-            brand="audi"
-            name="RS Coumpé 5"
-            rent={{
-              period: "ao dia",
-              price: 120,
-            }}
-            thumbnail="url"
-          />
-        )}
-      />
+      {loading ? (
+        <Load />
+      ) : (
+        <CarList
+          showsVerticalScrollIndicator={false}
+          data={data}
+          keyExtractor={(item) => String(item.id)}
+          renderItem={({ item }) => (
+            <CardCar onPress={handleCarDetails} data={item} />
+          )}
+        />
+      )}
     </Container>
   );
 }

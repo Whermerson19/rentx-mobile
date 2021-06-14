@@ -2,7 +2,8 @@ import React from "react";
 import { RectButtonProps } from "react-native-gesture-handler";
 
 import GasolineSvg from "../../assets/gasoline.svg";
-import CarExample from "../../assets/car_example.png";
+
+import { CarDTO } from "../../dtos/CarDTO";
 
 import {
   Container,
@@ -16,32 +17,22 @@ import {
   Type,
   CarImage,
 } from "./styles";
-import { useNavigation } from "@react-navigation/native";
-import { useCallback } from "react";
 
 interface Props extends RectButtonProps {
-  brand: string;
-  name: string;
-  rent: {
-    period: string;
-    price: number;
-  };
-  thumbnail: string;
+  data: CarDTO;
 }
 
-export function CardCar({ brand, name, rent, thumbnail, ...rest }: Props) {
-  const navigation = useNavigation();
-
+export function CardCar({ data, ...rest }: Props) {
   return (
     <Container {...rest}>
       <Detail>
-        <Brand>{brand}</Brand>
-        <Name>{name}</Name>
+        <Brand>{data.brand}</Brand>
+        <Name>{data.name}</Name>
 
         <About>
           <Rent>
-            <Period>{rent.period}</Period>
-            <Price>{`R$ ${rent.price}`}</Price>
+            <Period>{data.rent.period}</Period>
+            <Price>{`R$ ${data.rent.price}`}</Price>
           </Rent>
 
           <Type>
@@ -50,7 +41,7 @@ export function CardCar({ brand, name, rent, thumbnail, ...rest }: Props) {
         </About>
       </Detail>
 
-      <CarImage resizeMode="contain" source={CarExample} />
+      <CarImage resizeMode="contain" source={{ uri: data.thumbnail }} />
     </Container>
   );
 }
