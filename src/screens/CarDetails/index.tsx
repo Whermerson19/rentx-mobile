@@ -39,7 +39,9 @@ export function CarDetails() {
   const { car } = route.params as Params;
 
   const handleChoseRentalPeriod = useCallback(() => {
-    navigation.navigate("Schedules");
+    navigation.navigate("Schedules", {
+      car,
+    });
   }, [navigation]);
 
   return (

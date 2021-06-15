@@ -1,7 +1,14 @@
 import React, { useCallback } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
-import { StatusBar } from "react-native";
+import { CarDTO } from "../../dtos/CarDTO";
+
+import { getAccessoryIcon } from "../../utils/getAccessoryIcon";
+import { useMemo } from "react";
+import { format } from "date-fns";
+import { api } from "../../services/api";
+
+import { Alert, StatusBar } from "react-native";
 
 import { RFValue } from "react-native-responsive-fontsize";
 
@@ -13,13 +20,6 @@ import { Accessory } from "../../components/Accessory";
 import { BackButton } from "../../components/BackButton";
 import { ImageSlider } from "../../components/ImageSlider";
 import { Button } from "../../components/Button";
-
-import speedSvg from "../../assets/speed.svg";
-import accelerationSvg from "../../assets/acceleration.svg";
-import peopleSvg from "../../assets/people.svg";
-import forceSvg from "../../assets/force.svg";
-import gasolineSvg from "../../assets/gasoline.svg";
-import exchangeSvg from "../../assets/exchange.svg";
 
 import {
   Container,
@@ -47,14 +47,42 @@ import {
   Footer,
 } from "./styles";
 
+interface Params {
+  car: CarDTO;
+  dates: string[];
+}
+
 export function ScheduleDetails() {
   const theme = useTheme();
 
   const navigation = useNavigation();
+  const route = useRoute();
 
-  const handleConfirmRental = useCallback(() => {
-    navigation.navigate("SchedulingComplete");
-  }, [navigation]);
+  const { car, dates } = route.params as Params;
+
+  const handleConfirmRental = useCallback(async () => {
+    const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`);
+
+    const unavailable_dates = [
+      ...schedulesByCar.data.unavailable_dates,
+      ...dates,
+    ];
+
+    api
+      .put(`/schedules_bycars/${car.id}`, {
+        id: car.id,
+        unavailable_dates,
+      })
+      .then((response) => navigation.navigate("SchedulingComplete"))
+      .catch(() => Alert.alert("Erro ao concluir o agendamento"));
+  }, [navigation, car, dates]);
+
+  const totalRental = useMemo(() => {
+    const price = car.rent.price;
+    const days = dates.length;
+
+    return price * days;
+  }, [car, dates]);
 
   return (
     <Container>
@@ -73,33 +101,30 @@ export function ScheduleDetails() {
       </Header>
 
       <SliderContainer>
-        <ImageSlider
-          imagesURL={[
-            "https://freepngimg.com/thumb/audi/35227-5-audi-rs5-red.png",
-          ]}
-        />
+        <ImageSlider imagesURL={car.photos} />
       </SliderContainer>
 
       <Content>
         <Details>
           <Description>
-            <Brand>Audi</Brand>
-            <Name>RS Coupé 5</Name>
+            <Brand>{car.brand}</Brand>
+            <Name>{car.name}</Name>
           </Description>
 
           <Rent>
-            <Period>Ao dia</Period>
-            <Price>R$ 120</Price>
+            <Period>{car.rent.period}</Period>
+            <Price>R$ {car.rent.price}</Price>
           </Rent>
         </Details>
 
         <AccessoriesContainer>
-          <Accessory icon={speedSvg} name="380 km/h" />
-          <Accessory icon={accelerationSvg} name="3.2s" />
-          <Accessory icon={forceSvg} name="800 HP" />
-          <Accessory icon={gasolineSvg} name="Gasolina" />
-          <Accessory icon={exchangeSvg} name="Auto" />
-          <Accessory icon={peopleSvg} name="2 pessoas" />
+          {car.accessories.map((accessory) => (
+            <Accessory
+              key={accessory.type}
+              icon={getAccessoryIcon(accessory.type)}
+              name={accessory.name}
+            />
+          ))}
         </AccessoriesContainer>
 
         <RentalPeriod>
@@ -113,7 +138,7 @@ export function ScheduleDetails() {
 
           <DateInfo>
             <DateTitle>DE</DateTitle>
-            <DateValue>12/06/2021</DateValue>
+            <DateValue>{format(new Date(dates[0]), "dd/MM/yyyy")}</DateValue>
           </DateInfo>
 
           <Feather
@@ -124,15 +149,19 @@ export function ScheduleDetails() {
 
           <DateInfo>
             <DateTitle>DE</DateTitle>
-            <DateValue>12/06/2021</DateValue>
+            <DateValue>
+              {format(new Date(dates[dates.length - 1]), "dd/MM/yyyy")}
+            </DateValue>
           </DateInfo>
         </RentalPeriod>
 
         <RentalPrice>
           <RentalPriceLabel>TOTAL</RentalPriceLabel>
           <RentalPriceDetails>
-            <RentalPriceQuota>R$ 580 x3 diárias</RentalPriceQuota>
-            <RentalPriceTotal>R$ 2.900</RentalPriceTotal>
+            <RentalPriceQuota>
+              R$ {car.rent.price} x{dates.length} diárias
+            </RentalPriceQuota>
+            <RentalPriceTotal>R$ {totalRental}</RentalPriceTotal>
           </RentalPriceDetails>
         </RentalPrice>
       </Content>
