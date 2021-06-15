@@ -1,7 +1,8 @@
-import React from 'react'
-import { SvgProps } from 'react-native-svg'
+import React from "react";
+import { RFValue } from "react-native-responsive-fontsize";
+import { SvgProps } from "react-native-svg";
 
-import { Container, Name } from './styles'
+import { Container, Name } from "./styles";
 
 interface Props {
   name: string;
@@ -11,8 +12,8 @@ interface Props {
 export function Accessory({ name, icon: Icon }: Props) {
   return (
     <Container>
-      <Icon width={32} height={32} />
+      <Icon width={RFValue(32)} height={RFValue(32)} />
       <Name>{name}</Name>
     </Container>
-  )
+  );
 }
