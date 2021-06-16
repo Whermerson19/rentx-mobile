@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
 import { CarDTO } from "../../dtos/CarDTO";
@@ -53,6 +53,8 @@ interface Params {
 }
 
 export function ScheduleDetails() {
+  const [loading, setLoading] = useState(false);
+
   const theme = useTheme();
 
   const navigation = useNavigation();
@@ -61,6 +63,8 @@ export function ScheduleDetails() {
   const { car, dates } = route.params as Params;
 
   const handleConfirmRental = useCallback(async () => {
+    setLoading(true);
+
     const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`);
 
     const unavailable_dates = [
@@ -68,13 +72,25 @@ export function ScheduleDetails() {
       ...dates,
     ];
 
+    await api.post("schedules_byuser", {
+      user_id: 1,
+      car,
+      startDate: `${format(new Date(dates[0]), "dd/MM/yyyy")}`,
+      endDate: `${format(new Date(dates[dates.length - 1]), "dd/MM/yyyy")}`,
+    });
+
     api
       .put(`/schedules_bycars/${car.id}`, {
         id: car.id,
         unavailable_dates,
       })
-      .then((response) => navigation.navigate("SchedulingComplete"))
-      .catch(() => Alert.alert("Erro ao concluir o agendamento"));
+      .then((response) => {
+        navigation.navigate("SchedulingComplete");
+      })
+      .catch(() => {
+        setLoading(false);
+        Alert.alert("Erro ao concluir o agendamento");
+      });
   }, [navigation, car, dates]);
 
   const totalRental = useMemo(() => {
@@ -168,6 +184,8 @@ export function ScheduleDetails() {
       <Footer>
         <Button
           title="Alugar agora"
+          loading={loading}
+          enabled={!loading}
           color={theme.colors.success}
           onPress={handleConfirmRental}
         />

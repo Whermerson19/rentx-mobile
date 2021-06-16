@@ -59,15 +59,11 @@ export function Schedules() {
   const navigation = useNavigation();
 
   const handleConfirmRental = useCallback(() => {
-    if (!rentalPeriod.startFormatted || !rentalPeriod.endFormatted) {
-      Alert.alert("Selecione um intervalo");
-    } else {
-      navigation.navigate("ScheduleDetails", {
-        car,
-        dates: Object.keys(markedDates),
-      });
-    }
-  }, [navigation, rentalPeriod]);
+    navigation.navigate("ScheduleDetails", {
+      car,
+      dates: Object.keys(markedDates),
+    });
+  }, [navigation, markedDates]);
 
   const handleChangeDate = useCallback(
     (day: DayProps) => {
@@ -140,7 +136,11 @@ export function Schedules() {
       </Content>
 
       <Footer>
-        <Button title="Confirmar" onPress={handleConfirmRental} />
+        <Button
+          enabled={!!rentalPeriod.startFormatted}
+          title="Confirmar"
+          onPress={handleConfirmRental}
+        />
       </Footer>
     </Container>
   );
