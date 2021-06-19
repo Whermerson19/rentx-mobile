@@ -33,7 +33,7 @@ export const ImageIndex = styled.View<ImageIndexProps>`
 `;
 
 export const CarImageWrapper = styled.View`
-  width: 100%;
+  width: ${Dimensions.get("window").width}px;
   height: ${RFValue(132)}px;
 
   justify-content: center;
