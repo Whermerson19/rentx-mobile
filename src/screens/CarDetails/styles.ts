@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 
 export const Container = styled.View`
   flex: 1;
-
+  position: relative;
   background-color: ${(props) => props.theme.colors.background_secondary};
 `;
 
@@ -15,21 +15,14 @@ export const Header = styled.View`
 
   position: absolute;
 
+  overflow: hidden;
+
   margin-top: ${RFValue(50)}px;
 
   margin-left: ${RFValue(24)}px;
 `;
 
 export const SliderContainer = styled.View``;
-
-export const Content = styled.ScrollView.attrs({
-  contenContainerStyle: {
-    alignItems: "center",
-  },
-  showsVerticalScrollIndicator: false,
-})`
-  padding: ${RFValue(20)}px;
-`;
 
 export const Details = styled.View`
   width: 100%;

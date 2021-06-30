@@ -1,6 +1,14 @@
 import React, { useCallback } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
+import Animated, {
+  useSharedValue,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  interpolate,
+  Extrapolate,
+} from "react-native-reanimated";
+
 import { StatusBar } from "react-native";
 
 import { getAccessoryIcon } from "../../utils/getAccessoryIcon";
@@ -14,7 +22,6 @@ import {
   Container,
   Header,
   SliderContainer,
-  Content,
   Details,
   Description,
   Brand,
@@ -36,6 +43,33 @@ export function CarDetails() {
   const navigation = useNavigation();
   const route = useRoute();
 
+  const scrollY = useSharedValue(0);
+  const scrollHandler = useAnimatedScrollHandler((event) => {
+    scrollY.value = event.contentOffset.y;
+  });
+
+  const headerStyleAnimated = useAnimatedStyle(() => {
+    return {
+      height: interpolate(
+        scrollY.value,
+        [0, 200],
+        [200, 70],
+        Extrapolate.CLAMP
+      ),
+    };
+  });
+
+  const carImageStyleAnimated = useAnimatedStyle(() => {
+    return {
+      opacity: interpolate(
+        scrollY.value,
+        [0, 75, 150],
+        [1, 0.3, 0],
+        Extrapolate.CLAMP
+      ),
+    };
+  });
+
   const { car } = route.params as Params;
 
   const handleChoseRentalPeriod = useCallback(() => {
@@ -48,19 +82,28 @@ export function CarDetails() {
     <Container>
       <StatusBar barStyle="dark-content" />
 
-      <Header>
-        <BackButton
-          onPress={() => {
-            navigation.goBack();
-          }}
-        />
-      </Header>
+      <Animated.View style={[headerStyleAnimated]}>
+        <Header>
+          <BackButton
+            onPress={() => {
+              navigation.goBack();
+            }}
+          />
+        </Header>
 
-      <SliderContainer>
-        <ImageSlider imagesURL={car.photos} />
-      </SliderContainer>
+        <Animated.View style={carImageStyleAnimated}>
+          <ImageSlider imagesURL={car.photos} />
+        </Animated.View>
+      </Animated.View>
 
-      <Content>
+      <Animated.ScrollView
+        contentContainerStyle={{
+          paddingHorizontal: 24,
+        }}
+        showsVerticalScrollIndicator={false}
+        onScroll={scrollHandler}
+        scrollEventThrottle={16}
+      >
         <Details>
           <Description>
             <Brand>{car.brand}</Brand>
@@ -83,8 +126,16 @@ export function CarDetails() {
           ))}
         </AccessoriesContainer>
 
-        <About>{car.about}</About>
-      </Content>
+        <About>
+          {car.about}
+          {car.about}
+          {car.about}
+          {car.about}
+          {car.about}
+          {car.about}
+          {car.about}
+        </About>
+      </Animated.ScrollView>
       <Footer>
         <Button
           onPress={handleChoseRentalPeriod}
