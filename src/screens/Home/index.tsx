@@ -1,9 +1,9 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { StatusBar } from "react-native";
+import { StatusBar, BackHandler } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { RFValue } from "react-native-responsive-fontsize";
 
-import { RectButton, PanGestureHandler } from "react-native-gesture-handler";
+import { RectButton, PanGestureHandler,  } from "react-native-gesture-handler";
 
 import { useTheme } from "styled-components";
 
@@ -91,6 +91,10 @@ export function Home() {
 
     loadCars();
   }, []);
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => true)
+  }, [])
 
   return (
     <Container>

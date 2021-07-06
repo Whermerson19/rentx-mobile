@@ -18,9 +18,9 @@ export const Container = styled(RectButton)<ContainerProps>`
   background-color: ${props => props.bgColor};
 `;
 
-export const Title = styled.Text`
+export const Title = styled.Text<ContainerProps>`
   font-family: ${props => props.theme.fonts.primary_500};
   font-size: ${RFValue(15)}px;
 
-  color: ${props => props.theme.colors.shape};
+  color: ${props => props.bgColor};
 `;

@@ -27,13 +27,13 @@ export function Button({
     <Container
       enabled={enabled}
       bgColor={color ? color : theme.colors.main}
-      style={{ opacity: !enabled || loading ? 0.5 : 1 }}
+      style={{ opacity: !enabled || loading ? 0.5 : 1, marginTop: color ? 8 : 0 }}
       {...rest}
     >
       {loading ? (
         <ActivityIndicator color={theme.colors.shape} />
       ) : (
-        <Title>{title}</Title>
+        <Title bgColor={color ? theme.colors.shape_dark : theme.colors.shape}>{title}</Title>
       )}
     </Container>
   );
